@@ -7,27 +7,9 @@ import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
 import { addToCart } from "@/app/store";
 import { RootState } from "@/app/store"; // Assuming RootState type is defined in "store" folder.
+import { Product } from "@prisma/client";
 
-interface ProductCardProps {
-  id: string;
-  discount: number;
-  name: string;
-  brand: string;
-  category: string;
-  price: number;
-  countInStock: number;
-  images: string[];
-  rating: number;
-  numReviews: number;
-  description: string;
-  quantity: number;
-}
-
-interface Product {
-  data: ProductCardProps;
-}
-
-const ProductCard: React.FC<Product> = ({ data }) => {
+const ProductCard = ({ data }: { data: Product }) => {
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
   const dispatch = useDispatch();
 
@@ -40,7 +22,9 @@ const ProductCard: React.FC<Product> = ({ data }) => {
   } as React.CSSProperties;
 
   const afterdiscount =
-    data.discount > 0 ? (data.price - data.price / data.discount).toFixed(2) : "0";
+    data.discount > 0
+      ? (data.price - data.price / data.discount).toFixed(2)
+      : "0";
 
   return (
     <div className="relative flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
