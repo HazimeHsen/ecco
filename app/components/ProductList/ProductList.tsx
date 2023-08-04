@@ -3,7 +3,7 @@ import ProductCard from "../ProductCard/ProductCard";
 
 interface ProductProps {
   id: string;
-  offer: number;
+  discount: number;
   name: string;
   brand: string;
   category: string;
