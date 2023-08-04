@@ -10,7 +10,7 @@ import { RootState } from "@/app/store"; // Assuming RootState type is defined i
 
 interface ProductCardProps {
   id: string;
-  offer: number;
+  discount: number;
   name: string;
   brand: string;
   category: string;
@@ -39,8 +39,8 @@ const ProductCard: React.FC<Product> = ({ data }) => {
     "--rating": data.rating,
   } as React.CSSProperties;
 
-  const afterOffer =
-    data.offer > 0 ? (data.price - data.price / data.offer).toFixed(2) : "0";
+  const afterdiscount =
+    data.discount > 0 ? (data.price - data.price / data.discount).toFixed(2) : "0";
 
   return (
     <div className="relative flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
@@ -53,9 +53,9 @@ const ProductCard: React.FC<Product> = ({ data }) => {
           src={data.images[0]}
           alt="product image"
         />
-        {data.offer > 0 && (
+        {data.discount > 0 && (
           <span className="absolute top-0 left-0 m-2 rounded-full bg-black px-2 text-center text-sm font-medium text-white">
-            {data.offer}% OFF
+            {data.discount}% OFF
           </span>
         )}
       </Link>
@@ -66,9 +66,9 @@ const ProductCard: React.FC<Product> = ({ data }) => {
         <div className="mt-2 mb-5 flex flex-wrap-reverse items-center justify-between">
           <p>
             <span className="mr-1 text-xl font-bold text-slate-900">
-              ${Number(afterOffer) > 0 ? afterOffer : data.price}
+              ${Number(afterdiscount) > 0 ? afterdiscount : data.price}
             </span>
-            {Number(afterOffer) > 0 && (
+            {Number(afterdiscount) > 0 && (
               <span className="text-xs text-slate-900 line-through">
                 ${data.price}
               </span>

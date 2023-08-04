@@ -1,7 +1,10 @@
+"use client";
 import { clothesData } from "@/data";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BiCategory } from "react-icons/bi";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 interface CategoryAccordionProps {
   onClick: () => void;
 }
@@ -11,8 +14,27 @@ const CategoryAccordion: React.FC<CategoryAccordionProps> = ({ onClick }) => {
   const toggleAccordion = () => {
     setIsExpanded((prevState) => !prevState);
   };
+
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const getProducts = async () => {
+      try {
+        const { data } = await axios.get("/api/product");
+        console.log(data);
+
+        if (data) {
+          setProducts(data);
+        }
+      } catch (error) {
+        toast.error("Somthing went Wrong.");
+      }
+    };
+    getProducts();
+  }, [products]);
+
   let data: string[] = [];
-  clothesData.map((item) => {
+  products.map((item) => {
     if (!data.includes(item.category)) {
       data.push(item.category);
     }

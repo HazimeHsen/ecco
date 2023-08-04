@@ -1,9 +1,11 @@
+"use client";
 import PaginationControls from "@/app/components/PaginationControls/PaginationControls";
 import ProductList from "@/app/components/ProductList/ProductList";
 import { clothesData } from "@/data";
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
-import React from "react";
-
+import React, { useState, useEffect } from "react";
+import { toast } from "react-hot-toast";
+import axios from "axios";
 const page = ({
   params,
   searchParams,
@@ -13,8 +15,26 @@ const page = ({
     [key: string]: string | string | undefined;
   };
 }) => {
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const getProducts = async () => {
+      try {
+        const { data } = await axios.get("/api/product");
+        console.log(data);
+
+        if (data) {
+          setProducts(data);
+        }
+      } catch (error) {
+        toast.error("Somthing went Wrong.");
+      }
+    };
+    getProducts();
+  }, [products]);
+
   const { category } = params;
-  const data = clothesData.filter((data) => data.category === category);
+  const data = products.filter((data) => data.category === category);
 
   const page = searchParams["page"] ?? 1;
   const per_page = searchParams["per_page"] ?? 4;

@@ -2,7 +2,7 @@ export const clothesData = [
   {
     id: "1",
     quantity: 0,
-    offer: 0,
+    discount: 0,
     name: "Men's T-Shirt",
     subtitle: "Comfortable and stylish men's t-shirt",
     brand: "XYZ Apparel",
@@ -18,7 +18,7 @@ export const clothesData = [
   {
     id: "2",
     quantity: 0,
-    offer: 39,
+    discount: 39,
     name: "Women's Blouse",
     subtitle: "Fashionable women's blouse with elegant patterns",
     brand: "ABC Fashion",
@@ -34,7 +34,7 @@ export const clothesData = [
   {
     id: "3",
     quantity: 0,
-    offer: 31,
+    discount: 31,
     name: "Men's Polo Shirt",
     subtitle:
       "Classic men's polo shirt, suitable for both casual and semi-formal occasions",
@@ -51,7 +51,7 @@ export const clothesData = [
   {
     id: "4",
     quantity: 0,
-    offer: 12,
+    discount: 12,
     name: "Women's Dress",
     subtitle:
       "Elegant women's dress with a flattering silhouette and beautiful design",
@@ -68,10 +68,10 @@ export const clothesData = [
   {
     id: "5",
     quantity: 0,
-    offer: 5,
+    discount: 5,
     name: "Men's Jeans",
     subtitle:
-      "Classic men's jeans that offer both style and comfort for everyday wear",
+      "Classic men's jeans that discount both style and comfort for everyday wear",
     brand: "Denim Co.",
     category: "Jeans",
     price: 44.99,
@@ -80,12 +80,12 @@ export const clothesData = [
     rating: 4.6,
     numReviews: 14,
     description:
-      "Classic men's jeans that offer both style and comfort for everyday wear.",
+      "Classic men's jeans that discount both style and comfort for everyday wear.",
   },
   {
     id: "6",
     quantity: 0,
-    offer: 45,
+    discount: 45,
     name: "Women's Leggings",
     subtitle:
       "Stretchy and versatile women's leggings suitable for various activities",
@@ -102,7 +102,7 @@ export const clothesData = [
   {
     id: "7",
     quantity: 0,
-    offer: 22,
+    discount: 22,
     name: "Men's Hoodie",
     subtitle: "Comfortable and stylish men's hoodie perfect for cooler weather",
     brand: "XYZ Apparel",
@@ -118,7 +118,7 @@ export const clothesData = [
   {
     id: "8",
     quantity: 0,
-    offer: 11,
+    discount: 11,
     name: "Women's Cardigan",
     subtitle:
       "A cozy and chic women's cardigan that complements various outfits",
@@ -135,7 +135,7 @@ export const clothesData = [
   {
     id: "9",
     quantity: 0,
-    offer: 37,
+    discount: 37,
     name: "Men's Shorts",
     subtitle:
       "Stylish and comfortable men's shorts for casual and outdoor activities",

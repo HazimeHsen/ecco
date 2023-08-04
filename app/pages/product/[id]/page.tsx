@@ -1,35 +1,62 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { IoMdHeartEmpty } from "react-icons/io";
 import { BsCart, BsCart3 } from "react-icons/bs";
 import Wrapper from "@/app/components/ProductComponents/Wrapper";
 import ProductDetailsCarousel from "@/app/components/ProductComponents/ProductDetailsCarousel";
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
-import { clothesData } from "@/data";
+import { products } from "@/data";
 import Button from "@/app/components/Button";
+import { toast } from "react-hot-toast";
+import axios from "axios";
 interface ProductDetailsProps {
   params: Params;
 }
 const ProductDetails: React.FC<ProductDetailsProps> = ({ params }) => {
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const getProducts = async () => {
+      try {
+        const { data } = await axios.get("/api/product");
+        console.log(data);
+
+        if (data) {
+          setProducts(data);
+        }
+      } catch (error) {
+        toast.error("Somthing went Wrong.");
+      }
+    };
+    getProducts();
+  }, [products]);
   const { id } = params;
-  const data = clothesData.filter((pro) => pro.id === id);
+
+  const data = products.filter((pro) => pro.id === id);
+
   const starsStyle = {
     "--rating": data[0]?.rating,
   } as React.CSSProperties;
-  const afterOffer = (data[0].price - data[0].price / data[0].offer).toFixed(2);
+
+  const afterdiscount = (
+    (data[0]?.price ? data[0].price : 0) -
+    (data[0] ? data[0]?.price / data[0]?.discount : 0)
+  ).toFixed(2);
+
+  const price = data[0] ? data[0].price : 0;
   return (
     <div className=" w-full pt-3">
       <Wrapper>
         <div className=" flex flex-col lg:flex-row md:px-10 gap-[50px] lg:gap-[100px]">
           <div className=" w-full md:w-auto flex-[1.5] max-w-[500px] lg:max-w-full mx-auto lg:mx-0">
-            <ProductDetailsCarousel images={data[0].images} />
+            <ProductDetailsCarousel images={data[0] ? data[0].images : []} />
           </div>
 
           <div className=" flex-1 py-3">
             <div className="flex items-center text-[34px] leading-none font-semibold mb-3">
               <div>{data && data[0]?.name}</div>
               <div className="text-3xl ml-4 text-red-600">
-                {data && data[0]?.offer}%
+                {data && data[0]?.discount}%
               </div>
             </div>
             <div className="font-semibold mb-5">
@@ -38,21 +65,17 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ params }) => {
             <div className="mt-2 mb-5 flex flex-wrap-reverse items-center justify-between">
               <p>
                 <span className="mr-1 text-xl font-bold text-slate-900">
-                  ${Number(afterOffer) > 0 ? afterOffer : data[0].price}
+                  ${Number(afterdiscount) > 0 ? afterdiscount : price}
                 </span>
-                {Number(afterOffer) > 0 ? (
+                {Number(afterdiscount) > 0 ? (
                   <span className="text-xs text-slate-900 line-through">
-                    ${data[0].price}
+                    ${price}
                   </span>
                 ) : (
                   ""
                 )}
               </p>
-              <div
-                className="Stars"
-                style={starsStyle}
-                aria-label={`Rating of this product is ${data[0].rating} out of 5.`}
-              />
+              <div className="Stars" style={starsStyle} />
             </div>
 
             <div className=" my-7">

@@ -14,8 +14,28 @@ import {
   navigationMenuTriggerStyle,
 } from "@/app/components/ui/navigation-menu";
 import { clothesData } from "@/data";
-
+import { toast } from "react-hot-toast";
+import axios from "axios";
+import { useState, useEffect } from "react";
 export default function CategoryDropDown() {
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const getProducts = async () => {
+      try {
+        const { data } = await axios.get("/api/product");
+        console.log(data);
+
+        if (data) {
+          setProducts(data);
+        }
+      } catch (error) {
+        toast.error("Somthing went Wrong.");
+      }
+    };
+    getProducts();
+  }, [products]);
+
   let data: string[] = [];
   clothesData.map((item) => {
     if (!data.includes(item.category)) {
@@ -28,10 +48,12 @@ export default function CategoryDropDown() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Categories</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid w-[300px] gap-3 p-4 md:grid-cols-2 ">
+            <ul className="grid bg-white w-[300px] gap-3 p-4 md:grid-cols-2 ">
               {data.map((component) => (
                 <Link href={`/pages/category/${component}`} key={component}>
-                  <ListItem title={component}></ListItem>
+                  <ListItem
+                    className="flex items-center w-full h-full p-2 text-gray-900 rounded-lg  hover:bg-gray-100  group"
+                    title={component}></ListItem>
                 </Link>
               ))}
             </ul>

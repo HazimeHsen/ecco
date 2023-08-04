@@ -69,24 +69,24 @@ const Sidebar: React.FC<UserMenuProps> = ({ currentUser }) => {
         </div>
         <div className="py-4 overflow-y-auto">
           <ul className="space-y-2 font-medium">
+            <li onClick={handleButtonClick} className="cursor-pointer">
+              <Link
+                href="/pages/products"
+                className="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  group">
+                <div className="flex items-center">
+                  <div className="mr-2">
+                    <BiShoppingBag size={20} />
+                  </div>
+                  <div>All Products</div>
+                </div>
+              </Link>
+            </li>
             <li className="flex items-center w-full">
               <div className="flex items-center w-full">
                 <div className="w-full">
                   <CategoryAccordion onClick={handleButtonClick} />
                 </div>
               </div>
-            </li>
-            <li className="cursor-pointer">
-              <a
-                href="/pages/profile"
-                className="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  group">
-                <div className="flex items-center">
-                  <div className="mr-2">
-                    <BiShoppingBag size={20} />
-                  </div>
-                  <div>Profile</div>
-                </div>
-              </a>
             </li>
             {currentUser ? (
               <>
