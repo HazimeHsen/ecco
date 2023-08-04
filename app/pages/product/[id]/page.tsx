@@ -5,7 +5,6 @@ import { BsCart, BsCart3 } from "react-icons/bs";
 import Wrapper from "@/app/components/ProductComponents/Wrapper";
 import ProductDetailsCarousel from "@/app/components/ProductComponents/ProductDetailsCarousel";
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
-import { products } from "@/data";
 import Button from "@/app/components/Button";
 import { toast } from "react-hot-toast";
 import axios from "axios";
@@ -37,7 +36,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ params }) => {
   const data = products.filter((pro) => pro.id === id);
 
   const starsStyle = {
-    "--rating": data[0]?.rating,
+    "--rating": 5,
   } as React.CSSProperties;
 
   const afterdiscount = (
@@ -62,7 +61,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ params }) => {
               </div>
             </div>
             <div className="font-semibold mb-5">
-              {data && data[0]?.subtitle}
+              {data && data[0]?.description}
             </div>
             <div className="mt-2 mb-5 flex flex-wrap-reverse items-center justify-between">
               <p>
