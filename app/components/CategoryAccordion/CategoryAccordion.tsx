@@ -5,6 +5,8 @@ import React, { useState, useEffect } from "react";
 import { BiCategory } from "react-icons/bi";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { Product } from "@prisma/client";
+
 interface CategoryAccordionProps {
   onClick: () => void;
 }

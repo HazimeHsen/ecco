@@ -9,6 +9,8 @@ import { products } from "@/data";
 import Button from "@/app/components/Button";
 import { toast } from "react-hot-toast";
 import axios from "axios";
+import { Product } from "@prisma/client";
+
 interface ProductDetailsProps {
   params: Params;
 }

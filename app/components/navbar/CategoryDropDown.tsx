@@ -17,6 +17,7 @@ import { clothesData } from "@/data";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { Product } from "@prisma/client";
 export default function CategoryDropDown() {
   const [products, setProducts] = useState<Product[]>([]);
 
