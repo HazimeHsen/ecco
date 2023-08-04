@@ -19,7 +19,6 @@ const page = ({
     const getProducts = async () => {
       try {
         const { data } = await axios.get("/api/product");
-        console.log(data);
 
         if (data) {
           setProducts(data);
@@ -31,7 +30,6 @@ const page = ({
     getProducts();
   }, [products]);
 
-  console.log(products);
   const page = searchParams["page"] ?? 1;
   const per_page = searchParams["per_page"] ?? 4;
 

@@ -2,7 +2,7 @@ import React from "react";
 import ProductCard from "../ProductCard/ProductCard";
 import { Product } from "@prisma/client";
 
-const ProductList: React.FC<Product[]> = ({ productData }) => {
+const ProductList = ({ productData }: { productData: Product[] }) => {
   return (
     <div className="flex justify-center w-full">
       <div className="gap-4 w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
