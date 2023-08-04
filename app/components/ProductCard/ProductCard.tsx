@@ -13,12 +13,12 @@ const ProductCard = ({ data }: { data: Product }) => {
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
   const dispatch = useDispatch();
 
-  const handleAddToCart = (product: ProductCardProps) => {
+  const handleAddToCart = (product: Product) => {
     dispatch(addToCart(product));
   };
 
   const starsStyle = {
-    "--rating": data.rating,
+    "--rating": 5,
   } as React.CSSProperties;
 
   const afterdiscount =
@@ -58,11 +58,7 @@ const ProductCard = ({ data }: { data: Product }) => {
               </span>
             )}
           </p>
-          <div
-            className="Stars"
-            style={starsStyle}
-            aria-label={`Rating of this product is ${data.rating} out of 5.`}
-          />
+          <div className="Stars" style={starsStyle} />
         </div>
         {data.countInStock > 0 ? (
           <Button
