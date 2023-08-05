@@ -23,7 +23,6 @@ const page = ({
     const getProducts = async () => {
       try {
         const { data } = await axios.get("/api/product");
-        console.log(data);
 
         if (data) {
           setProducts(data);

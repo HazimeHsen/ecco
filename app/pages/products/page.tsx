@@ -37,7 +37,6 @@ const page = ({
   const end = start + Number(per_page);
 
   const entries = products.slice(start, end);
-  console.log(entries);
   return (
     <div>
       <ProductList productData={entries} />

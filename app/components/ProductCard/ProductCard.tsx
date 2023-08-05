@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import "./style.css";
 import Button from "../Button";
 import { BsCart3 } from "react-icons/bs";
 import Link from "next/link";
@@ -8,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { addToCart } from "@/app/store";
 import { RootState } from "@/app/store"; // Assuming RootState type is defined in "store" folder.
 import { Product } from "@prisma/client";
+import Rating from "../Rating/Rating";
 
 const ProductCard = ({ data }: { data: Product }) => {
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
@@ -16,10 +16,6 @@ const ProductCard = ({ data }: { data: Product }) => {
   const handleAddToCart = (product: Product) => {
     dispatch(addToCart(product));
   };
-
-  const starsStyle = {
-    "--rating": 5,
-  } as React.CSSProperties;
 
   const afterdiscount =
     data.discount > 0
@@ -58,7 +54,7 @@ const ProductCard = ({ data }: { data: Product }) => {
               </span>
             )}
           </p>
-          <div className="Stars" style={starsStyle} />
+          <Rating touchable={false} />
         </div>
         {data.countInStock > 0 ? (
           <Button
