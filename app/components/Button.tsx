@@ -2,6 +2,7 @@
 
 import React, { ReactNode } from "react";
 import { IconType } from "react-icons";
+import { cn } from "../lib/utils";
 
 interface ButtonProps {
   label: string;
@@ -10,9 +11,13 @@ interface ButtonProps {
   outline?: boolean;
   small?: boolean;
   icon?: IconType;
+  className?: string;
+  favorite?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({
+  favorite,
+  className,
   label,
   onClick,
   disabled,
@@ -24,7 +29,8 @@ const Button: React.FC<ButtonProps> = ({
     <button
       disabled={disabled}
       onClick={onClick}
-      className={`
+      className={cn(
+        `
         relative
         disabled:opacity-70
         disabled:cursor-not-allowed
@@ -32,16 +38,28 @@ const Button: React.FC<ButtonProps> = ({
         hover:opacity-80
         transition
         w-full
-        ${outline ? "bg-white" : "bg-slate-900"}
-        ${outline ? "border-black" : "border-slate-900"}
-        ${outline ? "text-black" : "text-white"}
+        
+        ${
+          favorite
+            ? "bg-white border-rose-600 text-rose-600"
+            : outline
+            ? "bg-white border-black text-black"
+            : "bg-slate-900 border-slate-900 text-white"
+        }
         ${small ? "text-sm" : "text-md"}
         ${small ? "py-1" : "py-3"}
         ${small ? "font-light" : "font-semibold"}
         ${small ? "border-[1px]" : "border-2"}
-      `}>
+      `,
+        className
+      )}>
       <div className="flex items-center justify-center">
-        {Icon && <Icon size={24} className="mr-2" />}
+        {Icon && (
+          <Icon
+            size={24}
+            className={`${favorite ? "fill-rose-600 " : ""} mr-2`}
+          />
+        )}
         {label}
       </div>
     </button>

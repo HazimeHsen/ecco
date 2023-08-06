@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Button from "../Button";
-import { BsCart3 } from "react-icons/bs";
+import { BsCart3, BsTrash } from "react-icons/bs";
 import { IoMdHeartEmpty } from "react-icons/io";
 import axios from "axios";
 import { toast } from "react-hot-toast";
@@ -10,6 +10,16 @@ import Wrapper from "../ProductComponents/Wrapper";
 import ProductDetailsCarousel from "../ProductComponents/ProductDetailsCarousel";
 import Rating from "../Rating/Rating";
 import Loader from "../Loader/Loader";
+import { useDispatch } from "react-redux";
+import {
+  RootState,
+  addToCart,
+  addToFavorites,
+  isProductInFavorites,
+  removeFromFavorites,
+} from "@/app/store";
+import Cookies from "js-cookie";
+import { useSelector } from "react-redux";
 
 interface ProductPageProps {
   userId?: string | undefined;
@@ -19,6 +29,33 @@ interface ProductPageProps {
 const ProductPage: React.FC<ProductPageProps> = ({ userId, productId }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [favorite, setFavorite] = useState(false);
+  const dispatch = useDispatch();
+
+  const handleAddToCart = (product: Product) => {
+    dispatch(addToCart(product));
+  };
+  const isFavorite = useSelector((state: RootState) =>
+    state.favorites.favoriteItems.some((item) => item.id === productId)
+  );
+
+  useEffect(() => {
+    setFavorite(isFavorite);
+  }, [isFavorite]);
+
+  const handleAddToFavorites = (product: Product) => {
+    if (!isFavorite) {
+      dispatch(addToFavorites(product));
+    } else {
+      setFavorite(true);
+    }
+  };
+
+  const handleRemoveFromFavorites = (product: Product) => {
+    if (isFavorite) {
+      dispatch(removeFromFavorites(product.id));
+    }
+  };
 
   useEffect(() => {
     const getProducts = async () => {
@@ -39,7 +76,6 @@ const ProductPage: React.FC<ProductPageProps> = ({ userId, productId }) => {
   }, []);
 
   const data = products.filter((pro) => pro.id === productId);
-
   const afterdiscount = (
     (data[0]?.price ? data[0].price : 0) -
     (data[0] ? data[0]?.price / data[0]?.discount : 0)
@@ -56,7 +92,7 @@ const ProductPage: React.FC<ProductPageProps> = ({ userId, productId }) => {
       ) : (
         <div className=" w-full pt-3">
           <Wrapper>
-            <div className=" flex flex-col lg:flex-row md:px-10 gap-[50px] lg:gap-[100px]">
+            <div className=" flex flex-col lg:flex-row md:px-10 md:gap-[50px] lg:gap-[100px]">
               <div className=" w-full md:w-auto flex-[1.5] max-w-[500px] lg:max-w-full mx-auto lg:mx-0">
                 <ProductDetailsCarousel
                   images={data[0] ? data[0].images : []}
@@ -126,7 +162,7 @@ const ProductPage: React.FC<ProductPageProps> = ({ userId, productId }) => {
                   {data && data[0]?.countInStock > 0 ? (
                     <Button
                       label="Add to cart"
-                      onClick={() => {}}
+                      onClick={() => handleAddToCart(data[0])}
                       icon={BsCart3}
                     />
                   ) : (
@@ -138,13 +174,22 @@ const ProductPage: React.FC<ProductPageProps> = ({ userId, productId }) => {
                     />
                   )}{" "}
                 </div>
-                <div className="mb-3">
+                <div className="mb-3 flex gap-2 ">
                   <Button
+                    favorite={favorite === true ? true : false}
                     label="Whishlist"
-                    onClick={() => {}}
+                    onClick={() => handleAddToFavorites(data[0])}
                     icon={IoMdHeartEmpty}
                     outline
                   />
+                  {favorite && (
+                    <Button
+                      outline
+                      label="Remove"
+                      onClick={() => handleRemoveFromFavorites(data[0])}
+                      icon={BsTrash}
+                    />
+                  )}
                 </div>
               </div>
             </div>

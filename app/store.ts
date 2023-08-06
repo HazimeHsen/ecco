@@ -65,11 +65,54 @@ const cartSlice = createSlice({
 export const { addToCart, removeFromCart, incrementItem, decrementItem } =
   cartSlice.actions;
 
-export const Store = configureStore({
-  reducer: {
-    cart: cartSlice.reducer,
-  },
-});
+  
+
+  interface FavoritesState {
+    favoriteItems: Product[];
+  }
+
+  const favoritesCookie = Cookies.get("favorites");
+  const parsedFavoriteItems = favoritesCookie
+    ? JSON.parse(favoritesCookie).favoriteItems
+    : [];
+
+  const favoritesInitialState: FavoritesState = {
+    favoriteItems: parsedFavoriteItems ?? [],
+  };
+  const favoritesSlice = createSlice({
+    name: "favorites",
+    initialState: favoritesInitialState,
+    reducers: {
+      addToFavorites(state, action: PayloadAction<Product>) {
+        state.favoriteItems.push(action.payload);
+        Cookies.set("favorites", JSON.stringify(state));
+      },
+      removeFromFavorites(state, action: PayloadAction<string>) {
+        state.favoriteItems = state.favoriteItems.filter(
+          (product) => product.id !== action.payload
+        );
+        Cookies.set("favorites", JSON.stringify(state));
+      },
+      isProductInFavorites(state, action: PayloadAction<string>) {
+        const { favoriteItems } = state;
+        const productId = action.payload;
+        const isFavorite = favoriteItems.some(
+          (product) => product.id === productId
+        );
+      },
+    },
+  });
+  export const { addToFavorites, removeFromFavorites, isProductInFavorites } =
+    favoritesSlice.actions;
+
+
+  export const Store = configureStore({
+    reducer: {
+      cart: cartSlice.reducer,
+      favorites: favoritesSlice.reducer,
+    },
+  });
+  
 
 export type RootState = ReturnType<typeof Store.getState>;
 export type AppDispatch = typeof Store.dispatch;

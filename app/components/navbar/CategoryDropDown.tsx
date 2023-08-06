@@ -13,7 +13,6 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/app/components/ui/navigation-menu";
-import { clothesData } from "@/data";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 import { useState, useEffect } from "react";
@@ -37,7 +36,7 @@ export default function CategoryDropDown() {
   }, [products]);
 
   let data: string[] = [];
-  clothesData.map((item) => {
+  products.map((item) => {
     if (!data.includes(item.category)) {
       data.push(item.category);
     }
@@ -63,6 +62,13 @@ export default function CategoryDropDown() {
           <Link href="/pages/products" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               All Products
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <Link href="/pages/favorites" legacyBehavior passHref>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              Favorites
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>

@@ -2,15 +2,12 @@
 import React, { useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { CgProfile } from "react-icons/cg";
-import { BiCategory, BiLogOut, BiShoppingBag } from "react-icons/bi";
+import { BiLogOut, BiShoppingBag } from "react-icons/bi";
 import { MdOutlineLogin } from "react-icons/md";
-import { AiOutlineClose } from "react-icons/ai";
-import { Items } from "./ItemsMenu";
+import { AiOutlineClose, AiOutlineHeart } from "react-icons/ai";
 import { SafeUser } from "@/app/types";
-import useRegisterModal from "@/app/hooks/useRegisterModal";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import { signOut } from "next-auth/react";
-import Cart from "../Cart/Cart";
 import CategoryAccordion from "../CategoryAccordion/CategoryAccordion";
 import Link from "next/link";
 
@@ -69,6 +66,18 @@ const Sidebar: React.FC<UserMenuProps> = ({ currentUser }) => {
         </div>
         <div className="py-4 overflow-y-auto">
           <ul className="space-y-2 font-medium">
+            <li onClick={handleButtonClick} className="cursor-pointer">
+              <Link
+                href="/pages/favorites"
+                className="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  group">
+                <div className="flex items-center">
+                  <div className="mr-2">
+                    <AiOutlineHeart size={20} />
+                  </div>
+                  <div>Favorites</div>
+                </div>
+              </Link>
+            </li>
             <li onClick={handleButtonClick} className="cursor-pointer">
               <Link
                 href="/pages/products"

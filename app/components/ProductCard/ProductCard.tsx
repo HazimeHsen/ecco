@@ -1,17 +1,44 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../Button";
 import { BsCart3 } from "react-icons/bs";
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
-import { addToCart } from "@/app/store";
+import { addToCart, addToFavorites, removeFromFavorites } from "@/app/store";
 import { RootState } from "@/app/store"; // Assuming RootState type is defined in "store" folder.
 import { Product } from "@prisma/client";
 import Rating from "../Rating/Rating";
+import { IoMdHeartEmpty } from "react-icons/io";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import HeartIcon from "../HeartLike/HeartLike";
 
 const ProductCard = ({ data }: { data: Product }) => {
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
+  const [favorite, setFavorite] = useState(false);
+
+  const isFavorite = useSelector((state: RootState) =>
+    state.favorites.favoriteItems.some((item) => item.id === data.id)
+  );
+
+  useEffect(() => {
+    setFavorite(isFavorite);
+  }, [isFavorite]);
+
+  const handleAddToFavorites = (product: Product) => {
+    if (!isFavorite) {
+      dispatch(addToFavorites(product));
+    } else {
+      setFavorite(true);
+    }
+  };
+
+  const handleRemoveFromFavorites = (product: Product) => {
+    if (isFavorite) {
+      dispatch(removeFromFavorites(product.id));
+    }
+  };
 
   const handleAddToCart = (product: Product) => {
     dispatch(addToCart(product));
@@ -39,6 +66,9 @@ const ProductCard = ({ data }: { data: Product }) => {
           </span>
         )}
       </Link>
+      <div className="absolute top-5 right-5 ">
+        <HeartIcon data={data} />
+      </div>
       <div className="mt-4 px-5 pb-5">
         <Link href={`/pages/product/${data.id}?category=${data.category}`}>
           <h5 className="text-xl tracking-tight text-slate-900">{data.name}</h5>
