@@ -20,7 +20,7 @@ const FavoritesPage = () => {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold underline">Favorite Products: </h1>
+      <h1 className="text-2xl font-bold underline my-5">Favorite Products: </h1>
       <div className="flex flex-wrap gap-4 justify-center">
         {favoriteItems.length > 0 ? (
           favoriteItems.map((item) => <ProductCard key={item.id} data={item} />)
