@@ -18,8 +18,8 @@ import {
   isProductInFavorites,
   removeFromFavorites,
 } from "@/app/store";
-import Cookies from "js-cookie";
 import { useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
 
 interface ProductPageProps {
   userId?: string | undefined;
@@ -31,10 +31,13 @@ const ProductPage: React.FC<ProductPageProps> = ({ userId, productId }) => {
   const [loading, setLoading] = useState(true);
   const [favorite, setFavorite] = useState(false);
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const handleAddToCart = (product: Product) => {
+    router.push("/pages/cart");
     dispatch(addToCart(product));
   };
+
   const isFavorite = useSelector((state: RootState) =>
     state.favorites.favoriteItems.some((item) => item.id === productId)
   );

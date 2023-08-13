@@ -1,6 +1,9 @@
 "use client";
-import ProductList from "./components/ProductList/ProductList";
-
+import Hero from "./components/Landing/Hero/Hero";
 export default function Home() {
-  return <main>hello</main>;
+  return (
+    <>
+      <Hero />
+    </>
+  );
 }

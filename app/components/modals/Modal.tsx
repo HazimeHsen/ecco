@@ -10,6 +10,7 @@ interface ModalProps {
   onClose: () => void;
   onSubmit: () => void;
   title?: string;
+  isText?: boolean | null;
   body?: React.ReactElement;
   footer?: React.ReactElement;
   actionLabel: string;
@@ -22,6 +23,7 @@ const Modal: React.FC<ModalProps> = ({
   isOpen,
   onClose,
   onSubmit,
+  isText,
   title,
   body,
   actionLabel,
@@ -158,28 +160,30 @@ const Modal: React.FC<ModalProps> = ({
               <div className="relative p-6 md:py-6 py-3">{body}</div>
               {/*footer*/}
               <div className="flex flex-col gap-2 p-6">
-                <div
-                  className="
-                    flex 
-                    flex-row 
-                    items-center 
-                    gap-4 
-                    w-full
-                  ">
-                  {secondaryAction && secondaryActionLabel && (
+                {!isText && (
+                  <div
+                    className="
+                  flex 
+                  flex-row 
+                  items-center 
+                  gap-4 
+                  w-full
+                ">
+                    {secondaryAction && secondaryActionLabel && (
+                      <Button
+                        disabled={disabled}
+                        label={secondaryActionLabel}
+                        onClick={handleSecondaryAction}
+                        outline
+                      />
+                    )}
                     <Button
                       disabled={disabled}
-                      label={secondaryActionLabel}
-                      onClick={handleSecondaryAction}
-                      outline
+                      label={actionLabel}
+                      onClick={handleSubmit}
                     />
-                  )}
-                  <Button
-                    disabled={disabled}
-                    label={actionLabel}
-                    onClick={handleSubmit}
-                  />
-                </div>
+                  </div>
+                )}
                 {footer}
               </div>
             </div>

@@ -9,11 +9,12 @@ import LoginModal from "./components/modals/LoginModal";
 import getCurrentUser from "./actions/getCurrentUser";
 import Container from "./components/Container";
 import { StoreProvider } from "./StoreProvider";
-const inter = Inter({ subsets: ["latin"] });
-
+import Footer from "./components/Footer/Footer";
+import { websiteName } from "@/data";
+import PaymentMethodModal from "./components/modals/PaymentMethodModal";
 export const metadata: Metadata = {
-  title: "Hazime Shop",
-  description: "Hazime Shop",
+  title: ` ${websiteName}`,
+  description: ` ${websiteName}`,
 };
 
 export default async function RootLayout({
@@ -24,17 +25,19 @@ export default async function RootLayout({
   const currentUser = await getCurrentUser();
   return (
     <html lang="en">
-      <body className="min-h-screen relative">
+      <body className="min-h-screen w-full relative flex flex-col">
         <StoreProvider>
           <ClientOnly>
             <ToasterProvider />
+            <PaymentMethodModal />
             <LoginModal />
             <RegisterModal />
-            <Container>
-              <Navbar currentUser={currentUser} />
-            </Container>
+            <Navbar currentUser={currentUser} />
           </ClientOnly>
-          <Container>{children}</Container>
+          <div className="h-full w-full flex-grow">
+            <Container>{children}</Container>
+          </div>
+          <Footer />
         </StoreProvider>
       </body>
     </html>

@@ -9,7 +9,7 @@ import Link from "next/link";
 import { BsCart3 } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store";
-
+import Container from "../Container";
 interface NavbarProps {
   currentUser?: SafeUser | null;
 }
@@ -21,35 +21,37 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
   const totalQuantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
-    <div className="p-2 py-4">
-      <div className="flex items-center justify-between bg-transparent">
-        <Logo />
-        <div className="hidden md:flex items-center gap-6">
-          <ItemsMenu />
+    <div className="p-2 py-4 w-full">
+      <Container>
+        <div className="flex items-center w-full justify-between bg-transparent">
+          <Logo />
+          <div className="hidden md:flex items-center gap-6">
+            <ItemsMenu />
+          </div>
+
+          <div className="flex items-center justify-center gap-6">
+            <div className="flex items-center font-semibold relative">
+              <Link href="/pages/cart">
+                <div className="bg-red-600 text-white w-4 h-4 flex items-center justify-center rounded-full absolute -top-3 -right-2">
+                  {/* Display the total quantity */}
+                  <span className="text-xs">
+                    {totalQuantity > 0 ? totalQuantity : 0}
+                  </span>
+                </div>{" "}
+                <BsCart3 size={25} />
+              </Link>
+            </div>
+
+            <div className="block md:hidden">
+              <Sidebar currentUser={currentUser} />
+            </div>
+
+            <div className="hidden md:flex items-center">
+              <UserMenu currentUser={currentUser} />
+            </div>
+          </div>
         </div>
-
-        <div className="flex items-center justify-center gap-6">
-          <div className="flex items-center font-semibold relative">
-            <Link href="/pages/cart">
-              <div className="bg-red-600 text-white w-4 h-4 flex items-center justify-center rounded-full absolute -top-3 -right-2">
-                {/* Display the total quantity */}
-                <span className="text-xs">
-                  {totalQuantity > 0 ? totalQuantity : 0}
-                </span>
-              </div>{" "}
-              <BsCart3 size={25} />
-            </Link>
-          </div>
-
-          <div className="block md:hidden">
-            <Sidebar currentUser={currentUser} />
-          </div>
-
-          <div className="hidden md:flex items-center">
-            <UserMenu currentUser={currentUser} />
-          </div>
-        </div>
-      </div>
+      </Container>
     </div>
   );
 };

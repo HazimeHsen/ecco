@@ -150,3 +150,6 @@ export const clothesData = [
       "Stylish and comfortable men's shorts for casual and outdoor activities.",
   },
 ];
+
+
+export const websiteName = "Hazime Shop";

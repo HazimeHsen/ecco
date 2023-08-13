@@ -1,14 +1,19 @@
 "use client";
-import Button from "@/app/components/Button";
 import { decrementItem, incrementItem, removeFromCart } from "@/app/store";
 import Link from "next/link";
 import React from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/app/store"; // Assuming RootState type is defined in "store" folder.
+import usePaymentMethodModal from "@/app/hooks/PaymentMethodModal";
+import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
 const Cart: React.FC = () => {
-  // Retrieve cartItems from the Redux store
+  const router = useRouter();
+
+  const PaymentMethodModal = usePaymentMethodModal();
+
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
   const dispatch = useDispatch();
 
@@ -146,7 +151,14 @@ const Cart: React.FC = () => {
                 <span>Total cost</span>
                 <span>${totalPrice > 0 ? totalPrice : 0}</span>
               </div>
-              <Button label="Checkout" onClick={() => {}} />
+              <Button
+                className="w-full"
+                onClick={() => {
+                  router.push("/pages/cart?redirect=address");
+                  PaymentMethodModal.onOpen();
+                }}>
+                CheckOut
+              </Button>
             </div>
           </div>
         </div>
