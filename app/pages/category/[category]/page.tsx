@@ -7,6 +7,7 @@ import React, { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 import { Product } from "@prisma/client";
+import ClientOnly from "@/app/components/ClientOnly";
 
 const page = ({
   params,
@@ -46,14 +47,16 @@ const page = ({
   const entries = data.slice(start, end);
 
   return (
-    <div>
-      <ProductList productData={entries} />
-      <PaginationControls
-        dataNb={entries.length}
-        hasNextPage={end < data.length}
-        hasPrevPage={start > 0}
-      />
-    </div>
+    <ClientOnly>
+      <div>
+        <ProductList productData={entries} />
+        <PaginationControls
+          dataNb={entries.length}
+          hasNextPage={end < data.length}
+          hasPrevPage={start > 0}
+        />
+      </div>
+    </ClientOnly>
   );
 };
 

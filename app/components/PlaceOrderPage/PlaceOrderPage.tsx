@@ -42,6 +42,11 @@ const PlaceOrderPage: React.FC = () => {
     { title: "Postal Code", value: addressData.postalCode },
   ];
 
+  const paymentMethodCookie = Cookies.get("PaymentMethod");
+  const paymentMethod = paymentMethodCookie
+    ? JSON.parse(paymentMethodCookie)
+    : "";
+
   const address = (
     <div className="mt-4 ml-2">
       <ul className="space-y-2">
@@ -54,13 +59,6 @@ const PlaceOrderPage: React.FC = () => {
       </ul>
     </div>
   );
-
-  const paymentMethodCookie = Cookies.get("PaymentMethod");
-  const paymentMethod = paymentMethodCookie
-    ? JSON.parse(paymentMethodCookie)
-    : "";
-
-  // ... (rest of the code)
 
   const product = (
     <>
@@ -120,7 +118,7 @@ const PlaceOrderPage: React.FC = () => {
         before proceeding to checkout.
       </p>
       <Button className="w-full" onClick={() => {}}>
-        Proceed to Checkout
+        Place Order
       </Button>
     </div>
   );

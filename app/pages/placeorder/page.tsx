@@ -1,10 +1,13 @@
+import ClientOnly from "@/app/components/ClientOnly";
 import PlaceOrderPage from "@/app/components/PlaceOrderPage/PlaceOrderPage";
 import React from "react";
 
 const page = () => {
   return (
     <>
-      <PlaceOrderPage />
+      <ClientOnly>
+        <PlaceOrderPage />
+      </ClientOnly>
     </>
   );
 };
