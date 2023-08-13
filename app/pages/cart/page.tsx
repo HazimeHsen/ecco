@@ -1,11 +1,14 @@
+import getCurrentUser from "@/app/actions/getCurrentUser";
 import Cart from "@/app/components/Cart/Cart";
 import ClientOnly from "@/app/components/ClientOnly";
 import React from "react";
 
-const page = () => {
+const page = async () => {
+  const currentUser = await getCurrentUser();
+
   return (
     <ClientOnly>
-      <Cart />
+      <Cart currentUser={currentUser} />
     </ClientOnly>
   );
 };

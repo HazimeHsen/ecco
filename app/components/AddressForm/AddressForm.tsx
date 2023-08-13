@@ -1,10 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import AutocompleteInput, { Country } from "./AutocompleteInput";
 import { Button } from "../ui/button";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import { SafeUser } from "@/app/types";
 
 interface FormData {
   street: string;
@@ -14,11 +15,19 @@ interface FormData {
   country: Country | null;
 }
 
-function AddressForm() {
+function AddressForm({ currentUser }: { currentUser?: SafeUser | null }) {
   const router = useRouter();
   const [selected, setSelected] = useState<Country | null>(null);
-  const [countryError, setCountryError] = useState<string | null>(null); // New state for country error
-
+  const [countryError, setCountryError] = useState<string | null>(null);
+  const paymentMethodFromCookies = Cookies.get("PaymentMethod");
+  const defaultPaymentMethod = paymentMethodFromCookies
+    ? JSON.parse(paymentMethodFromCookies)
+    : null;
+  useEffect(() => {
+    if (!currentUser || !defaultPaymentMethod) {
+      router.push("/");
+    }
+  }, [currentUser]);
   const {
     register,
     handleSubmit,

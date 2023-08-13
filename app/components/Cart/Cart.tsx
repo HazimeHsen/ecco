@@ -8,11 +8,16 @@ import { RootState } from "@/app/store"; // Assuming RootState type is defined i
 import usePaymentMethodModal from "@/app/hooks/PaymentMethodModal";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
-
-const Cart: React.FC = () => {
+import { SafeUser } from "@/app/types";
+import useLoginModal from "@/app/hooks/useLoginModal";
+interface CartProps {
+  currentUser?: SafeUser | null;
+}
+const Cart: React.FC<CartProps> = ({ currentUser }) => {
   const router = useRouter();
 
   const PaymentMethodModal = usePaymentMethodModal();
+  const LoginModal = useLoginModal();
 
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
   const dispatch = useDispatch();
@@ -35,6 +40,15 @@ const Cart: React.FC = () => {
       .reduce((total, item) => total + item.price * item.quantity, 0)
       .toFixed(2)
   );
+
+  const handleCheckout = () => {
+    if (currentUser) {
+      router.push("/pages/cart?redirect=address");
+      PaymentMethodModal.onOpen();
+    } else {
+      LoginModal.onOpen();
+    }
+  };
 
   return (
     <div className="w-full h-full">
@@ -151,12 +165,7 @@ const Cart: React.FC = () => {
                 <span>Total cost</span>
                 <span>${totalPrice > 0 ? totalPrice : 0}</span>
               </div>
-              <Button
-                className="w-full"
-                onClick={() => {
-                  router.push("/pages/cart?redirect=address");
-                  PaymentMethodModal.onOpen();
-                }}>
+              <Button className="w-full" onClick={handleCheckout}>
                 CheckOut
               </Button>
             </div>

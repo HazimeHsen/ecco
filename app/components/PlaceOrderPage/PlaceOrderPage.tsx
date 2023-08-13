@@ -1,13 +1,14 @@
 "use client";
 import { BoxInfo } from "@/app/components/alert/Alert";
 import { RootState } from "@/app/store";
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import usePaymentMethodModal from "@/app/hooks/PaymentMethodModal";
+import { SafeUser } from "@/app/types";
 
 interface AddressData {
   country: { name: string };
@@ -17,10 +18,35 @@ interface AddressData {
   postalCode: string;
 }
 
-const PlaceOrderPage: React.FC = () => {
+interface placeOrderProps {
+  currentUser?: SafeUser | null;
+}
+
+const PlaceOrderPage: React.FC<placeOrderProps> = ({ currentUser }) => {
   const PaymentMethodModal = usePaymentMethodModal();
   const router = useRouter();
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
+
+  const paymentMethodFromCookies = Cookies.get("PaymentMethod");
+  const defaultPaymentMethod = paymentMethodFromCookies
+    ? JSON.parse(paymentMethodFromCookies)
+    : null;
+
+  const addressFromCookies = Cookies.get("address");
+  const defaultAddress = addressFromCookies
+    ? JSON.parse(addressFromCookies)
+    : null;
+
+  useEffect(() => {
+    if (
+      !currentUser ||
+      !defaultPaymentMethod ||
+      !defaultAddress ||
+      cartItems.length <= 0
+    ) {
+      router.push("/");
+    }
+  }, [currentUser, defaultPaymentMethod, defaultAddress]);
 
   const totalQuantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
   const totalPrice = Number(

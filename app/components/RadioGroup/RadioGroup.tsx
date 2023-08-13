@@ -34,13 +34,20 @@ const Radio: React.FC<RadioProps> = ({ labels }) => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
+  const paymentMethodFromCookies = Cookies.get("PaymentMethod");
+  const defaultPaymentMethod = paymentMethodFromCookies
+    ? JSON.parse(paymentMethodFromCookies)
+    : labels[0]; // Fallback to the first label if no value in cookies
+
+  useEffect(() => {
+    // Set the default value to the retrieved PaymentMethod
+    form.setValue("type", defaultPaymentMethod);
+  }, [form, defaultPaymentMethod]);
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(JSON.stringify(data.type));
     Cookies.set("PaymentMethod", JSON.stringify(data.type));
     PaymentMethodModal.onClose();
 
-    // Perform navigation after form submission
     const queryParams = new URLSearchParams(window.location.search);
     const redirectParam = queryParams?.get("redirect") || "";
     router.push(redirectParam);
@@ -57,12 +64,14 @@ const Radio: React.FC<RadioProps> = ({ labels }) => {
               <FormControl>
                 <RadioGroup
                   onValueChange={field.onChange}
-                  defaultValue={field.value}
                   className="flex flex-col space-y-1">
                   {labels.map((label) => (
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value={label} />
+                        <RadioGroupItem
+                          value={label}
+                          checked={field.value === label}
+                        />
                       </FormControl>
                       <FormLabel className="font-semibold text-lg">
                         {label}
@@ -82,5 +91,4 @@ const Radio: React.FC<RadioProps> = ({ labels }) => {
     </Form>
   );
 };
-
 export default Radio;
