@@ -27,7 +27,7 @@ const Radio: React.FC<RadioProps> = ({ labels }) => {
   const router = useRouter();
   const PaymentMethodModal = usePaymentMethodModal();
   const FormSchema = z.object({
-    type: z.enum([...labels], {
+    type: z.enum(labels as [string, ...string[]], {
       required_error: "You need to select a notification type.",
     }),
   });
