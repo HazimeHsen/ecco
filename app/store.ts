@@ -59,11 +59,20 @@ const cartSlice = createSlice({
       }
       Cookies.set("cart", JSON.stringify(state));
     },
+    clearCart(state) {
+      state.cartItems = [];
+      Cookies.set("cart", JSON.stringify(state));
+    },
   },
 });
 
-export const { addToCart, removeFromCart, incrementItem, decrementItem } =
-  cartSlice.actions;
+export const {
+  addToCart,
+  removeFromCart,
+  incrementItem,
+  decrementItem,
+  clearCart,
+} = cartSlice.actions;
 
   
 

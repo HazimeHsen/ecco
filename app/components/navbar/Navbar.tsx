@@ -10,6 +10,7 @@ import { BsCart3 } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store";
 import Container from "../Container";
+import SearchInput from "../SearchInput/SearchInput";
 interface NavbarProps {
   currentUser?: SafeUser | null;
 }
@@ -25,11 +26,14 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
       <Container>
         <div className="flex items-center w-full justify-between bg-transparent">
           <Logo />
-          <div className="hidden md:flex items-center gap-6">
+          <div className="hidden lg:flex items-center gap-6">
             <ItemsMenu />
           </div>
 
           <div className="flex items-center justify-center gap-6">
+            <div>
+              <SearchInput />
+            </div>
             <div className="flex items-center font-semibold relative">
               <Link href="/pages/cart">
                 <div className="bg-red-600 text-white w-4 h-4 flex items-center justify-center rounded-full absolute -top-3 -right-2">
@@ -42,11 +46,11 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
               </Link>
             </div>
 
-            <div className="block md:hidden">
+            <div className="block lg:hidden">
               <Sidebar currentUser={currentUser} />
             </div>
 
-            <div className="hidden md:flex items-center">
+            <div className="hidden lg:flex items-center">
               <UserMenu currentUser={currentUser} />
             </div>
           </div>

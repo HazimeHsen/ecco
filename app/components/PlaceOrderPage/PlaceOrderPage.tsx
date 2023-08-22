@@ -1,6 +1,6 @@
 "use client";
 import { BoxInfo } from "@/app/components/alert/Alert";
-import { RootState } from "@/app/store";
+import { RootState, clearCart } from "@/app/store";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Cookies from "js-cookie";
@@ -9,6 +9,9 @@ import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import usePaymentMethodModal from "@/app/hooks/PaymentMethodModal";
 import { SafeUser } from "@/app/types";
+import { toast } from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import axios from "axios";
 
 interface AddressData {
   country: { name: string };
@@ -26,6 +29,9 @@ const PlaceOrderPage: React.FC<placeOrderProps> = ({ currentUser }) => {
   const PaymentMethodModal = usePaymentMethodModal();
   const router = useRouter();
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
+  const dispatch = useDispatch();
+
+  console.log(cartItems);
 
   const paymentMethodFromCookies = Cookies.get("PaymentMethod");
   const defaultPaymentMethod = paymentMethodFromCookies
@@ -72,6 +78,50 @@ const PlaceOrderPage: React.FC<placeOrderProps> = ({ currentUser }) => {
   const paymentMethod = paymentMethodCookie
     ? JSON.parse(paymentMethodCookie)
     : "";
+
+  const handleClearCart = () => {
+    dispatch(clearCart());
+  };
+
+  const productIds: string[] = [];
+  cartItems.forEach((item) => {
+    productIds.push(item.id);
+  });
+
+  const saveOrder = async () => {
+    try {
+      const { data } = await axios.post("/api/orders", {
+        userId: currentUser?.id,
+        orderItems: cartItems,
+        totalCost: totalPrice,
+        quantity: totalQuantity,
+        country: addressData.country.name,
+        city: addressData.city,
+        streetAddress: addressData.street,
+        state: addressData.state,
+        postalCode: addressData.postalCode,
+        paymentMethod: paymentMethod,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handlePlaceOrder = () => {
+    if (currentUser && paymentMethod === "On Delivered") {
+      toast.success("Place Order Successfully Added");
+      saveOrder();
+      router.push("/");
+      handleClearCart();
+    } else if (currentUser && paymentMethod === "Stripe") {
+      toast.success("stripe");
+      saveOrder();
+      router.push("/");
+      handleClearCart();
+    } else {
+      toast.success("Please make sure to add Payment Method and to Login");
+    }
+  };
 
   const address = (
     <div className="mt-4 ml-2">
@@ -143,7 +193,7 @@ const PlaceOrderPage: React.FC<placeOrderProps> = ({ currentUser }) => {
         Please review the products, payment method, and address information
         before proceeding to checkout.
       </p>
-      <Button className="w-full" onClick={() => {}}>
+      <Button className="w-full" onClick={handlePlaceOrder}>
         Place Order
       </Button>
     </div>
