@@ -12,6 +12,7 @@ import { StoreProvider } from "./StoreProvider";
 import Footer from "./components/Footer/Footer";
 import { websiteName } from "@/data";
 import PaymentMethodModal from "./components/modals/PaymentMethodModal";
+import Image from "next/image";
 export const metadata: Metadata = {
   title: ` ${websiteName}`,
   description: ` ${websiteName}`,
@@ -25,7 +26,7 @@ export default async function RootLayout({
   const currentUser = await getCurrentUser();
   return (
     <html lang="en">
-      <body className="min-h-screen w-full relative flex flex-col">
+      <body className="min-h-screen relative w-full flex flex-col">
         <StoreProvider>
           <ClientOnly>
             <ToasterProvider />
@@ -35,6 +36,30 @@ export default async function RootLayout({
             <Navbar currentUser={currentUser} />
           </ClientOnly>
           <div className="h-full w-full flex-grow">
+            <Image
+              alt="bac-Image"
+              src="/images/bg.png"
+              width={1000}
+              height={1000}
+              style={{
+                position: "fixed",
+                inset: 0,
+                boxSizing: "border-box",
+                padding: 0,
+                border: "none",
+                margin: "auto",
+                display: "block",
+                width: "0px",
+                height: "0px",
+                minWidth: "100%",
+                maxWidth: "100%",
+                minHeight: "100%",
+                maxHeight: "100%",
+                objectFit: "cover",
+                objectPosition: "center top",
+                zIndex: -100,
+              }}
+            />
             <Container>{children}</Container>
           </div>
           <Footer />

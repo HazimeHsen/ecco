@@ -29,7 +29,7 @@ export default function CategoryDropDown() {
           setProducts(data);
         }
       } catch (error) {
-        toast.error("Somthing went Wrong.");
+        toast.error("Something went Wrong.");
       }
     };
     getProducts();
@@ -45,7 +45,9 @@ export default function CategoryDropDown() {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Categories</NavigationMenuTrigger>
+          <NavigationMenuTrigger className={`bg-transparent`}>
+            Categories
+          </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid bg-white w-[300px] gap-3 p-4 md:grid-cols-2 ">
               {data.map((component) => (
@@ -60,14 +62,16 @@ export default function CategoryDropDown() {
         </NavigationMenuItem>
         <NavigationMenuItem>
           <Link href="/pages/products" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+            <NavigationMenuLink
+              className={`${navigationMenuTriggerStyle()} bg-transparent`}>
               All Products
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <Link href="/pages/favorites" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+            <NavigationMenuLink
+              className={`${navigationMenuTriggerStyle()} bg-transparent`}>
               Favorites
             </NavigationMenuLink>
           </Link>

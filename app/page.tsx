@@ -1,9 +1,12 @@
 "use client";
 import Hero from "./components/Landing/Hero/Hero";
+import ClientOnly from "./components/ClientOnly";
 export default function Home() {
   return (
     <>
-      <Hero />
+      <ClientOnly>
+        <Hero />
+      </ClientOnly>
     </>
   );
 }

@@ -18,11 +18,10 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
 
-  // Calculate totalQuantity using Redux state
   const totalQuantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
-    <div className="p-2 py-4 w-full">
+    <div className="p-2 z-40 py-4 w-full">
       <Container>
         <div className="flex items-center w-full justify-between bg-transparent">
           <Logo />
@@ -31,9 +30,9 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
           </div>
 
           <div className="flex items-center justify-center gap-6">
-            <div>
+            {/* <div>
               <SearchInput />
-            </div>
+            </div> */}
             <div className="flex items-center font-semibold relative">
               <Link href="/pages/cart">
                 <div className="bg-red-600 text-white w-4 h-4 flex items-center justify-center rounded-full absolute -top-3 -right-2">
