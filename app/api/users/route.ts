@@ -46,3 +46,25 @@ export async function DELETE(
     message: `User ${user?.name} deleted successfully`,
   });
 }
+
+
+export async function PUT(req: Request) {
+  const userId = req.url.split("=")[1];
+  const body = await req.json();
+  const { name, email, image } = body;
+
+  const user = await prisma.user.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      name: name,
+      email: email,
+      image: image,
+    },
+  });
+
+  return NextResponse.json({
+    message: `User ${user?.name} Updated successfully`,
+  });
+}
