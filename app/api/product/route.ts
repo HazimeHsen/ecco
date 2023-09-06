@@ -27,7 +27,9 @@ export async function POST(req: Request) {
     },
   });
 
-  return NextResponse.json(product);
+  return NextResponse.json({
+    message: `Product ${product?.name} Created successfully`,
+  });
 }
 
 export async function GET(req: Request) {

@@ -1,5 +1,6 @@
 import prisma from "@/app/libs/prismadb";
 import { NextResponse } from "next/server";
+import bcrypt from "bcrypt";
 
 export async function GET(req: Request) {
   const user = await prisma.user.findMany();
@@ -47,7 +48,6 @@ export async function DELETE(
   });
 }
 
-
 export async function PUT(req: Request) {
   const userId = req.url.split("=")[1];
   const body = await req.json();
@@ -66,5 +66,26 @@ export async function PUT(req: Request) {
 
   return NextResponse.json({
     message: `User ${user?.name} Updated successfully`,
+  });
+}
+
+export async function POST(req: Request) {
+  const body = await req.json();
+  const { name, email, password, image } = body;
+
+  const hashedPassword = await bcrypt.hash(password, 12);
+
+  const user = await prisma.user.create({
+    data: {
+      email,
+      name,
+      hashedPassword,
+      image,
+    },
+  });
+
+  return NextResponse.json({
+    data: user,
+    message: `User ${user.name} created successfully`,
   });
 }
