@@ -101,7 +101,7 @@ const Sidebar: React.FC<UserMenuProps> = ({ currentUser }) => {
               <>
                 <li className="cursor-pointer">
                   <Link
-                    href="/profile"
+                    href={`/pages/profile/${currentUser.id}`}
                     className="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  group">
                     <div className="flex items-center">
                       <div className="mr-2">

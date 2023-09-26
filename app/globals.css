@@ -137,3 +137,44 @@
   border-bottom: 3px solid #3f4555;
   transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
 }
+
+
+
+/* applied to container */
+.custom-container {
+  background-color: none;
+}
+ 
+/* applied to container when readying */
+.custom-container[data-state="readying"] {
+  background-color: none;
+  max-height: 44px !important;
+}
+ 
+/* applied to button */
+.custom-button {
+  display: block !important;
+  width: 100% !important;
+  height: 20px !important;
+  color:black !important;
+  background-color: transparent !important;
+}
+ 
+/* applied to button when uploading */
+.custom-button-uploading {
+  color: rgb(0 0 0 / 0.5);
+  cursor: not-allowed;
+}
+ 
+.custom-button-uploading::after {
+  background-color: transparent;
+}
+ 
+/* applied to button when ready */
+.custom-button-ready {
+}
+ 
+/* applied to button when not ready */
+.custom-button-not-ready {
+  cursor: not-allowed;
+}

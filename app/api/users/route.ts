@@ -51,7 +51,8 @@ export async function DELETE(
 export async function PUT(req: Request) {
   const userId = req.url.split("=")[1];
   const body = await req.json();
-  const { name, email, image } = body;
+  const { name, email, image, password } = body;
+  const hashedPassword = await bcrypt.hash(password, 12);
 
   const user = await prisma.user.update({
     where: {
@@ -61,6 +62,7 @@ export async function PUT(req: Request) {
       name: name,
       email: email,
       image: image,
+      hashedPassword: hashedPassword,
     },
   });
 
