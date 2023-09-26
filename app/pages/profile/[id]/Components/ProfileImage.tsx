@@ -31,12 +31,9 @@ const ProfileImage: React.FC<ProfileImageProps> = ({
     try {
       setIsLoading(true);
 
-      const response = await axios.put(
-        `http://localhost:3000/api/users/image/${id}`,
-        {
-          image: "/images/placeholder.jpg",
-        }
-      );
+      const response = await axios.put(`/api/users/image/${id}`, {
+        image: "/images/placeholder.jpg",
+      });
 
       if (response.data) {
         setIsLoading(false);
@@ -94,12 +91,9 @@ const ProfileImage: React.FC<ProfileImageProps> = ({
                   onClientUploadComplete={async (res) => {
                     setIsLoading(true);
 
-                    const response = await axios.put(
-                      `http://localhost:3000/api/users/image/${id}`,
-                      {
-                        image: res ? res[0].fileUrl : "/images/placeholder.jpg",
-                      }
-                    );
+                    const response = await axios.put(`/api/users/image/${id}`, {
+                      image: res ? res[0].fileUrl : "/images/placeholder.jpg",
+                    });
 
                     if (response.data) {
                       setUpdated(!updated);

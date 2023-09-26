@@ -53,15 +53,12 @@ const EditForm: React.FC<EditFormProps> = ({
         setLoading(true);
         console.log(images);
 
-        const response = await axios.put(
-          `http://localhost:3000/api/users?id=${id}`,
-          {
-            name: d.name,
-            email: d.email,
-            password: d.password,
-            image: images[0] ? images[0].fileUrl : user?.image,
-          }
-        );
+        const response = await axios.put(`/api/users?id=${id}`, {
+          name: d.name,
+          email: d.email,
+          password: d.password,
+          image: images[0] ? images[0].fileUrl : user?.image,
+        });
 
         if (response.data) {
           toast.success(response.data.message);
