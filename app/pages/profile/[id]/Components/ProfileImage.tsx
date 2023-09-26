@@ -39,13 +39,14 @@ const ProfileImage: React.FC<ProfileImageProps> = ({
       );
 
       if (response.data) {
+        setIsLoading(false);
+        setUpdated(!updated);
+
         toast.success("Profile Image Deleted Successfully");
       }
-
-      if (response.data) {
-        setUpdated(!updated);
-      }
     } catch (error) {
+      setIsLoading(false);
+
       console.log(error);
     }
   };
@@ -101,14 +102,14 @@ const ProfileImage: React.FC<ProfileImageProps> = ({
                     );
 
                     if (response.data) {
-                      toast.success("Profile Image Updated Successfully");
-                    }
-
-                    if (response.data) {
                       setUpdated(!updated);
+                      setIsLoading(false);
+                      toast.success("Profile Image Updated Successfully");
                     }
                   }}
                   onUploadError={(error: Error) => {
+                    setIsLoading(false);
+                    console.log(error);
                     alert(`ERROR! ${error.message}`);
                   }}
                 />
