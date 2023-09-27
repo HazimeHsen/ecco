@@ -8,25 +8,14 @@ interface IParams {
 export async function GET(req: Request, { params }: { params: IParams }) {
   const { query } = params;
 
-  // Define the filter criteria for the products
-  const filterCriteria = {
-    OR: [
-      {
-        name: {
-          startsWith: query, // Products whose name starts with the query
-        },
-      },
-      {
-        name: {
-          contains: query, // Products whose name contains the query
-        },
-      },
-    ],
-  };
-
   try {
     const products = await prisma.product.findMany({
-      where: filterCriteria,
+      where: {
+        name: {
+          mode: "insensitive",
+          contains: query,
+        },
+      },
     });
 
     return NextResponse.json({ products });
