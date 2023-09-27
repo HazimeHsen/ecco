@@ -8,7 +8,7 @@ import { signIn } from "next-auth/react";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { SimpleUser } from "../page";
+import { SimpleUser } from "./ProfilePage";
 interface FormData {
   name: string;
   email: string;
