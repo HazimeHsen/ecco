@@ -17,8 +17,8 @@ const Loader: React.FC<LoaderProps> = ({ className, fill }) => {
         x="0px"
         y="0px"
         width="40px"
-        fill={fill}
         height="40px"
+        fill={fill}
         viewBox="0 0 40 40"
         enable-background="new 0 0 40 40">
         <path

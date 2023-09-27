@@ -34,7 +34,6 @@ const ProfilePage = ({
   const [orders, setOrders] = useState<Order[]>([]);
   const [reviews, setReviews] = useState<Reviews[]>([]);
   const [updated, setUpdated] = useState<boolean>(false);
-  console.log(currentUser);
 
   useEffect(() => {
     if (!currentUser) {

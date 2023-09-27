@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/app/store";
 import Container from "../Container";
 import SearchInput from "../SearchInput/SearchInput";
+import useSearchInputModal from "@/app/hooks/SearchInput";
 interface NavbarProps {
   currentUser?: SafeUser | null;
 }
@@ -19,18 +20,30 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
 
   const totalQuantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
-
+  const searchInput = useSearchInputModal();
   return (
     <div className="p-2 z-40 py-4 w-full">
       <Container>
-        <div className="flex items-center w-full justify-between bg-transparent">
-          <Logo />
+        <div
+          className={`flex items-center w-full ${
+            searchInput.isOpen
+              ? " md:justify-between justify-center"
+              : " justify-between"
+          } bg-transparent`}>
+          <div className={` ${searchInput.isOpen ? "md:block hidden" : ""} `}>
+            <Logo />{" "}
+          </div>
+
           <div className="hidden lg:flex items-center gap-6">
             <ItemsMenu />
           </div>
 
           <div className="flex items-center justify-center gap-6">
-            <div className="flex items-center font-semibold relative">
+            <SearchInput />
+            <div
+              className={`flex items-center font-semibold relative ${
+                searchInput.isOpen ? "md:block hidden" : ""
+              }`}>
               <Link href="/pages/cart">
                 <div className="bg-red-600 text-white w-4 h-4 flex items-center justify-center rounded-full absolute -top-3 -right-2">
                   <span className="text-xs">
@@ -41,7 +54,10 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
               </Link>
             </div>
 
-            <div className="block lg:hidden">
+            <div
+              className={` ${
+                searchInput.isOpen ? "md:block hidden" : "block lg:hidden"
+              } `}>
               <Sidebar currentUser={currentUser} />
             </div>
 
