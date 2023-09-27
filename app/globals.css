@@ -148,7 +148,6 @@
 /* applied to container when readying */
 .custom-container[data-state="readying"] {
   background-color: none;
-  max-height: 44px !important;
 }
  
 /* applied to button */

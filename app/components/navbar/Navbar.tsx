@@ -30,13 +30,9 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
           </div>
 
           <div className="flex items-center justify-center gap-6">
-            {/* <div>
-              <SearchInput />
-            </div> */}
             <div className="flex items-center font-semibold relative">
               <Link href="/pages/cart">
                 <div className="bg-red-600 text-white w-4 h-4 flex items-center justify-center rounded-full absolute -top-3 -right-2">
-                  {/* Display the total quantity */}
                   <span className="text-xs">
                     {totalQuantity > 0 ? totalQuantity : 0}
                   </span>

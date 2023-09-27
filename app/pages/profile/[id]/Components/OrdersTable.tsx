@@ -39,7 +39,7 @@ const OrdersTable = ({ data }: { data: Order[] }) => {
       ),
     },
     {
-      headerName: "Id",
+      headerName: "Delivered",
       resizable: true,
       sortable: true,
       cellRenderer: (params: Params) => (

@@ -2,11 +2,11 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { BiEdit } from "react-icons/bi";
 import { UploadButton } from "@/utils/uploadthing";
-import "@uploadthing/react/styles.css";
 import axios from "axios";
 import toast from "react-hot-toast";
 import MenuItem from "@/app/components/navbar/MenuItem";
-import { SimpleUser } from "../page";
+import { SimpleUser } from "./ProfilePage";
+
 interface ProfileImageProps {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   updated: boolean;
@@ -14,6 +14,7 @@ interface ProfileImageProps {
   id: string;
   user: SimpleUser | undefined;
 }
+
 const ProfileImage: React.FC<ProfileImageProps> = ({
   setIsLoading,
   setUpdated,
@@ -23,7 +24,7 @@ const ProfileImage: React.FC<ProfileImageProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const toggle = async () => {
+  const toggle = () => {
     setIsOpen(!isOpen);
   };
 
