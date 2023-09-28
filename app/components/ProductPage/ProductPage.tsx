@@ -31,6 +31,7 @@ const ProductPage: React.FC<ProductPageProps> = ({ userId, productId }) => {
   const [reviews, setReviews] = useState<Reviews[]>([]);
   const [loading, setLoading] = useState(true);
   const [favorite, setFavorite] = useState(false);
+  const [changed, setChanged] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -82,7 +83,7 @@ const ProductPage: React.FC<ProductPageProps> = ({ userId, productId }) => {
       }
     };
     getProducts();
-  }, []);
+  }, [changed]);
 
   const data = products.filter((pro) => pro.id === productId);
   const afterdiscount = (
@@ -133,6 +134,8 @@ const ProductPage: React.FC<ProductPageProps> = ({ userId, productId }) => {
                   </p>
                   <div>
                     <Rating
+                      setChanged={setChanged}
+                      changed={changed}
                       reviews={reviews}
                       touchable
                       userId={userId}

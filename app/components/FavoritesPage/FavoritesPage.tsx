@@ -80,35 +80,37 @@ const FavoritesPage = ({
         />
       ) : (
         <>
-          <div className="flex justify-center w-full">
-            <div className="gap-4 w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-              {favoriteItems.length > 0 ? (
-                favoriteItems.map((item) => (
-                  <ProductCard reviews={reviews} key={item.id} data={item} />
-                ))
-              ) : (
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-xl w-full">
-                  <h2>No favorite products yet.</h2>
-                  <Link
-                    className="flex justify-center items-center font-semibold text-indigo-600 w-full"
-                    href="/">
-                    <svg
-                      className="fill-current mr-2 text-indigo-600 w-4"
-                      viewBox="0 0 448 512">
-                      <path d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z" />
-                    </svg>
-                    <div className="text-center">Continue Shopping</div>
-                  </Link>
+          <div className="flex flex-col items-center justify-center w-full">
+            {favoriteItems.length > 0 ? (
+              <>
+                <div className="gap-4 w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                  {favoriteItems.map((item) => (
+                    <ProductCard reviews={reviews} key={item.id} data={item} />
+                  ))}
                 </div>
-              )}
-            </div>
-          </div>
-          <div>
-            <PaginationControls
-              dataNb={entries.length}
-              hasNextPage={end < entries.length}
-              hasPrevPage={start > 0}
-            />
+                <div>
+                  <PaginationControls
+                    dataNb={entries.length}
+                    hasNextPage={end < entries.length}
+                    hasPrevPage={start > 0}
+                  />
+                </div>
+              </>
+            ) : (
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-xl w-full">
+                <h2>No favorite products yet.</h2>
+                <Link
+                  className="flex justify-center items-center font-semibold text-indigo-600 w-full"
+                  href="/">
+                  <svg
+                    className="fill-current mr-2 text-indigo-600 w-4"
+                    viewBox="0 0 448 512">
+                    <path d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z" />
+                  </svg>
+                  <div className="text-center">Continue Shopping</div>
+                </Link>
+              </div>
+            )}
           </div>
         </>
       )}

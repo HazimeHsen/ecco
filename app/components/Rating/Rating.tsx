@@ -13,11 +13,15 @@ interface RatingProps {
   rating?: number;
   setRating?: (arg: number) => void;
   touchable?: boolean;
+  changed: boolean;
+  setChanged: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const Rating: React.FC<RatingProps> = ({
   userId,
   productId,
   reviews,
+  setChanged,
+  changed,
   touchable = false,
 }) => {
   const [rating, setRating] = useState(0);
@@ -109,6 +113,7 @@ const Rating: React.FC<RatingProps> = ({
         userId,
         productId,
       });
+      setChanged(!changed);
       setRating?.(0);
       setIsTouchable(false);
       setUserReview(true);
@@ -191,7 +196,10 @@ const Rating: React.FC<RatingProps> = ({
             }
             onClick={submitreview}>
             {isLoading ? (
-              <Loader fill="white" className="!w-[30px] !h-[30px] " />
+              <Loader
+                fill="white"
+                className="!w-[30px] !h-[30px] flex justify-center items-center"
+              />
             ) : (
               "Review"
             )}

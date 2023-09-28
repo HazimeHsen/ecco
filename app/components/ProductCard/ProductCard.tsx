@@ -25,7 +25,7 @@ const ProductCard = ({
 }) => {
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
   const dispatch = useDispatch();
-
+  const [changed, setChanged] = useState(false);
   const [favorite, setFavorite] = useState(false);
 
   const isFavorite = useSelector((state: RootState) =>
@@ -88,7 +88,9 @@ const ProductCard = ({
           </Link>
           <div className="mt-2 mb-5 block sm:flex md:block lg:flex flex-row-reverse  items-center justify-between">
             <Rating
-            reviews={reviews}
+              changed={changed}
+              setChanged={setChanged}
+              reviews={reviews}
               productId={data.id}
               touchable={false}
             />
