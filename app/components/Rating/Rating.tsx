@@ -7,7 +7,7 @@ import axios from "axios";
 import Loader from "../Loader/Loader";
 interface RatingProps {
   userId?: string;
-  productId?: string;
+  productId: string;
   rating?: number;
   setRating?: (arg: number) => void;
   touchable?: boolean;
@@ -24,7 +24,7 @@ const Rating: React.FC<RatingProps> = ({
   useEffect(() => {
     const getRating = async () => {
       try {
-        const { data } = await axios.get("/api/review");
+        const { data } = await axios.get(`/api/review/${productId}`);
         if (data) {
           let rating: number[] = [];
 

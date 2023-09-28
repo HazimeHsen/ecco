@@ -17,7 +17,7 @@ import {
   addToFavorites,
   isProductInFavorites,
   removeFromFavorites,
-} from "@/app/store";
+} from "@/app/Redux/store";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 

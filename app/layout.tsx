@@ -8,7 +8,7 @@ import RegisterModal from "./components/modals/RegisterModal";
 import LoginModal from "./components/modals/LoginModal";
 import getCurrentUser from "./actions/getCurrentUser";
 import Container from "./components/Container";
-import { StoreProvider } from "./StoreProvider";
+import { StoreProvider } from "./Redux/StoreProvider";
 import Footer from "./components/Footer/Footer";
 import { websiteName } from "@/data";
 import PaymentMethodModal from "./components/modals/PaymentMethodModal";

@@ -8,7 +8,7 @@ import Sidebar from "./Sidebar";
 import Link from "next/link";
 import { BsCart3 } from "react-icons/bs";
 import { useSelector } from "react-redux";
-import { RootState } from "@/app/store";
+import { RootState } from "@/app/Redux/store";
 import Container from "../Container";
 import SearchInput from "../SearchInput/SearchInput";
 import useSearchInputModal from "@/app/hooks/SearchInput";

@@ -4,12 +4,14 @@ import Button from "../Button";
 import { BsCart3 } from "react-icons/bs";
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
-import { addToCart, addToFavorites, removeFromFavorites } from "@/app/store";
-import { RootState } from "@/app/store"; // Assuming RootState type is defined in "store" folder.
+import {
+  addToCart,
+  addToFavorites,
+  removeFromFavorites,
+} from "@/app/Redux/store";
+import { RootState } from "@/app/Redux/store";
 import { Product } from "@prisma/client";
 import Rating from "../Rating/Rating";
-import { IoMdHeartEmpty } from "react-icons/io";
-import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import HeartIcon from "../HeartLike/HeartLike";
 
 const ProductCard = ({ data }: { data: Product }) => {
@@ -84,7 +86,7 @@ const ProductCard = ({ data }: { data: Product }) => {
               </span>
             )}
           </p>
-          <Rating touchable={false} />
+          <Rating productId={data.id} touchable={false} />
         </div>
         {data.countInStock > 0 ? (
           <Button

@@ -3,7 +3,7 @@ import {
   addToCart,
   addToFavorites,
   removeFromFavorites,
-} from "@/app/store";
+} from "@/app/Redux/store";
 import { Product } from "@prisma/client";
 import React, { useEffect, useState } from "react";
 import { IoIosHeart } from "react-icons/io";

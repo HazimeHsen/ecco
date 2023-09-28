@@ -1,6 +1,6 @@
 "use client";
 import { BoxInfo } from "@/app/components/alert/Alert";
-import { RootState, clearCart } from "@/app/store";
+import { RootState, clearCart } from "@/app/Redux/store";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Cookies from "js-cookie";

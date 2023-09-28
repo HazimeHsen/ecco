@@ -20,7 +20,6 @@ export async function GET(req: Request, { params }: { params: IParams }) {
 
     return NextResponse.json({ products });
   } catch (error) {
-    // Handle any errors that may occur during the database query
     console.error("Error querying products:", error);
     return NextResponse.json({
       message: "An error occurred while fetching products.",

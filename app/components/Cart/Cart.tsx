@@ -1,10 +1,14 @@
 "use client";
-import { decrementItem, incrementItem, removeFromCart } from "@/app/store";
+import {
+  decrementItem,
+  incrementItem,
+  removeFromCart,
+} from "@/app/Redux/store";
 import Link from "next/link";
 import React from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/app/store"; // Assuming RootState type is defined in "store" folder.
+import { RootState } from "@/app/Redux/store"; // Assuming RootState type is defined in "store" folder.
 import usePaymentMethodModal from "@/app/hooks/PaymentMethodModal";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
