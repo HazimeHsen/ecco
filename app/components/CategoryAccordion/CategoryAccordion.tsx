@@ -32,7 +32,7 @@ const CategoryAccordion: React.FC<CategoryAccordionProps> = ({ onClick }) => {
       }
     };
     getProducts();
-  }, [products]);
+  }, []);
 
   let data: string[] = [];
   products.map((item) => {

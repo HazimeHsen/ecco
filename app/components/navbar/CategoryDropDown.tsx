@@ -33,7 +33,7 @@ export default function CategoryDropDown() {
       }
     };
     getProducts();
-  }, [products]);
+  }, []);
 
   let data: string[] = [];
   products.map((item) => {

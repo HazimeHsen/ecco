@@ -33,7 +33,7 @@ const page = ({
       }
     };
     getProducts();
-  }, [products]);
+  }, []);
 
   const { category } = params;
   const data = products.filter((data) => data.category === category);

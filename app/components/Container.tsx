@@ -13,7 +13,10 @@ const Container: React.FC<ContainerProps> = ({ children }) => {
         xl:px-20 
         md:px-10
         sm:px-2
-        px-4
+        px-3
+        !h-full
+        flex-grow
+        flex-1
       ">
       {children}
     </div>

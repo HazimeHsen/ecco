@@ -99,6 +99,6 @@ export async function PUT(req: Request) {
     });
   } catch (error) {
     console.error(error);
-    return NextResponse.error(); // Handle the error gracefully
+    return NextResponse.error(); 
   }
 }

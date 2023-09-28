@@ -5,7 +5,7 @@ import { BsCart3, BsTrash } from "react-icons/bs";
 import { IoMdHeartEmpty } from "react-icons/io";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { Product } from "@prisma/client";
+import { Product, Reviews } from "@prisma/client";
 import Wrapper from "../ProductComponents/Wrapper";
 import ProductDetailsCarousel from "../ProductComponents/ProductDetailsCarousel";
 import Rating from "../Rating/Rating";
@@ -28,6 +28,7 @@ interface ProductPageProps {
 
 const ProductPage: React.FC<ProductPageProps> = ({ userId, productId }) => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [reviews, setReviews] = useState<Reviews[]>([]);
   const [loading, setLoading] = useState(true);
   const [favorite, setFavorite] = useState(false);
   const dispatch = useDispatch();
@@ -64,15 +65,20 @@ const ProductPage: React.FC<ProductPageProps> = ({ userId, productId }) => {
     const getProducts = async () => {
       try {
         setLoading(true);
-        const { data } = await axios.get("/api/product");
-
-        if (data) {
-          setProducts(data);
+        const [reviewsResponse, productsResponse] = await Promise.all([
+          axios.get("http://localhost:3000/api/review"),
+          axios.get("http://localhost:3000/api/product"),
+        ]);
+        if (productsResponse.data) {
+          setProducts(productsResponse.data);
+        }
+        if (reviewsResponse.data) {
+          setReviews(reviewsResponse.data);
         }
         setLoading(false);
       } catch (error) {
         setLoading(false);
-        toast.error("Somthing went Wrong.");
+        toast.error("Something went Wrong.");
       }
     };
     getProducts();
@@ -126,7 +132,12 @@ const ProductPage: React.FC<ProductPageProps> = ({ userId, productId }) => {
                     )}
                   </p>
                   <div>
-                    <Rating touchable userId={userId} productId={productId} />
+                    <Rating
+                      reviews={reviews}
+                      touchable
+                      userId={userId}
+                      productId={productId}
+                    />
                   </div>
                 </div>
 

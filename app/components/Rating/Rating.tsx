@@ -5,9 +5,11 @@ import Button from "../Button";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 import Loader from "../Loader/Loader";
+import { Reviews } from "@prisma/client";
 interface RatingProps {
   userId?: string;
   productId: string;
+  reviews: Reviews[];
   rating?: number;
   setRating?: (arg: number) => void;
   touchable?: boolean;
@@ -15,16 +17,19 @@ interface RatingProps {
 const Rating: React.FC<RatingProps> = ({
   userId,
   productId,
+  reviews,
   touchable = false,
 }) => {
   const [rating, setRating] = useState(0);
-  const [loading, setLoading] = useState(false);
   const [userReview, setUserReview] = useState(false);
+  const [isLoading, SetIsLoading] = useState(false);
   const [isTouchable, setIsTouchable] = useState(touchable);
   useEffect(() => {
     const getRating = async () => {
       try {
-        const { data } = await axios.get(`/api/review/${productId}`);
+        console.log("review");
+        const data = reviews.filter((review) => review.productId === productId);
+
         if (data) {
           let rating: number[] = [];
 
@@ -89,13 +94,15 @@ const Rating: React.FC<RatingProps> = ({
     }
   };
 
+  console.log("hello hi");
+
   const submitreview = async () => {
     if (rating <= 0) {
       toast.error("You should rate to review ");
       return;
     }
     try {
-      setLoading(true);
+      SetIsLoading(true);
 
       await axios.post("/api/review", {
         rating,
@@ -106,9 +113,9 @@ const Rating: React.FC<RatingProps> = ({
       setIsTouchable(false);
       setUserReview(true);
       toast.success("Review Submitted");
-      setLoading(false);
+      SetIsLoading(false);
     } catch (error) {
-      setLoading(false);
+      SetIsLoading(false);
       toast.error("You should Login and rate to review ");
     }
   };
@@ -178,12 +185,16 @@ const Rating: React.FC<RatingProps> = ({
             className="bg-gray-600 w-[80px] flex justify-center items-center text-white fw-semibold px-4 py-2 rounded disabled:cursor-not-allowed"
             disabled={
               userReview ||
-              loading ||
+              isLoading ||
               (rating <= 0 ? true : false) ||
               (userId ? false : true)
             }
             onClick={submitreview}>
-            {loading ? <Loader /> : "Review"}
+            {isLoading ? (
+              <Loader fill="white" className="!w-[30px] !h-[30px] " />
+            ) : (
+              "Review"
+            )}
           </button>
         </div>
       )}

@@ -56,7 +56,9 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
 
             <div
               className={` ${
-                searchInput.isOpen ? "md:block hidden" : "block lg:hidden"
+                searchInput.isOpen
+                  ? "lg:hidden md:block hidden "
+                  : "block lg:hidden"
               } `}>
               <Sidebar currentUser={currentUser} />
             </div>
