@@ -66,8 +66,8 @@ const ProductsPage = ({
             <div className="flex justify-center w-full">
               <div className="gap-4 w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 {products &&
-                  products.length > 0 &&
-                  products.map((data) => (
+                  entries.length > 0 &&
+                  entries.map((data) => (
                     <ProductCard
                       reviews={reviews}
                       setLoading={setLoading}

@@ -48,7 +48,28 @@ export async function DELETE(
     const product = await prisma.product.findUnique({
       where: { id: productId },
     });
+    
+    const orderItems = await prisma.orderItem.findMany({
+      where: {
+        productId: productId,
+      },
+    });
 
+    const deleteOrderItems = await prisma.orderItem.deleteMany({
+      where: {
+        productId: productId,
+      },
+    });
+
+    const orderIds = orderItems.map((order) => order.orderId);
+
+    const deletedOrderItems = await prisma.order.deleteMany({
+      where: {
+        id: {
+          in: orderIds,
+        },
+      },
+    });
     if (!product) {
       return NextResponse.json({
         error: "Product not found",

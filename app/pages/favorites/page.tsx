@@ -1,10 +1,16 @@
 import ClientOnly from "@/app/components/ClientOnly";
 import FavoritesPage from "@/app/components/FavoritesPage/FavoritesPage";
 import React from "react";
-const Favorites: React.FC = () => {
+const Favorites = ({
+  searchParams,
+}: {
+  searchParams: {
+    [key: string]: string | undefined;
+  };
+}) => {
   return (
     <ClientOnly>
-      <FavoritesPage />
+      <FavoritesPage searchParams={searchParams} />
     </ClientOnly>
   );
 };
