@@ -1,7 +1,7 @@
 "use client";
 import { BoxInfo } from "@/app/components/alert/Alert";
 import { RootState, clearCart } from "@/app/Redux/store";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import Image from "next/image";
@@ -12,6 +12,7 @@ import { SafeUser } from "@/app/types";
 import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import axios from "axios";
+import Loader from "../Loader/Loader";
 
 interface AddressData {
   country: { name: string };
@@ -30,6 +31,7 @@ const PlaceOrderPage: React.FC<placeOrderProps> = ({ currentUser }) => {
   const router = useRouter();
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
   console.log(cartItems);
 
@@ -90,6 +92,7 @@ const PlaceOrderPage: React.FC<placeOrderProps> = ({ currentUser }) => {
 
   const saveOrder = async () => {
     try {
+      setLoading(true);
       const { data } = await axios.post("/api/orders", {
         userId: currentUser?.id,
         orderItems: cartItems,
@@ -102,7 +105,11 @@ const PlaceOrderPage: React.FC<placeOrderProps> = ({ currentUser }) => {
         postalCode: addressData.postalCode,
         paymentMethod: paymentMethod,
       });
+      if (data) {
+        setLoading(false);
+      }
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
@@ -201,39 +208,48 @@ const PlaceOrderPage: React.FC<placeOrderProps> = ({ currentUser }) => {
 
   return (
     <div className="flex flex-wrap md:flex-nowrap w-full gap-4">
-      <div className="w-full md:w-3/4 flex flex-col gap-4">
-        <div>
-          <BoxInfo
-            onClick={PaymentMethodModal.onOpen}
-            title="Payment Method"
-            description={
-              <div className="ml-3 font-semibold">{paymentMethod}</div>
-            }
-          />
-        </div>
-        <div>
-          <BoxInfo
-            title="Products"
-            onClick={() => router.push("/pages/cart")}
-            description={product}
-          />
-        </div>
-        <div>
-          <BoxInfo
-            title="Address Information"
-            onClick={() => router.push("/pages/address")}
-            description={address}
-          />
-        </div>
-      </div>
-      <div className="w-full md:w-1/4">
-        <BoxInfo
-          title="Place Order"
-          onClick={() => {}}
-          isText
-          description={placeOrder}
+      {loading ? (
+        <Loader
+          fill="black"
+          className="!w-[35px] !h-[35px] text-black absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 "
         />
-      </div>
+      ) : (
+        <>
+          <div className="w-full md:w-3/4 flex flex-col gap-4">
+            <div>
+              <BoxInfo
+                onClick={PaymentMethodModal.onOpen}
+                title="Payment Method"
+                description={
+                  <div className="ml-3 font-semibold">{paymentMethod}</div>
+                }
+              />
+            </div>
+            <div>
+              <BoxInfo
+                title="Products"
+                onClick={() => router.push("/pages/cart")}
+                description={product}
+              />
+            </div>
+            <div>
+              <BoxInfo
+                title="Address Information"
+                onClick={() => router.push("/pages/address")}
+                description={address}
+              />
+            </div>
+          </div>
+          <div className="w-full md:w-1/4">
+            <BoxInfo
+              title="Place Order"
+              onClick={() => {}}
+              isText
+              description={placeOrder}
+            />
+          </div>
+        </>
+      )}
     </div>
   );
 };

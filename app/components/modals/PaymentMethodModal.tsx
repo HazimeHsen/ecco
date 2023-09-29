@@ -10,7 +10,7 @@ const PaymentMethodModal = () => {
   const bodyContent = (
     <div className="flex flex-col gap-4">
       <Heading title="Payment Method" />
-      <Radio labels={["Stripe", "On Delivered"]} />
+      <Radio labels={["On Delivered"]} />
     </div>
   );
   return (

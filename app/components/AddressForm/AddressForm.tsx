@@ -66,7 +66,9 @@ function AddressForm({ currentUser }: { currentUser?: SafeUser | null }) {
     Cookies.set("address", JSON.stringify(addressWithCountry), {
       expires: 30,
     });
-    router.push("/pages/placeorder");
+    const queryParams = new URLSearchParams(window.location.search);
+    const redirectParam = queryParams?.get("redirect") || "placeorder";
+    router.push(`/pages/${redirectParam}`);
   };
   return (
     <div className="w-full px-4 flex justify-center">

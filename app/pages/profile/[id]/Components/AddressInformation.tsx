@@ -12,7 +12,7 @@ interface Address {
   postalCode: string;
   country: Country | null;
 }
-const AddressInformation = () => {
+const AddressInformation = ({ id }: { id: string }) => {
   const [Address, setAddress] = useState<Address>();
 
   useEffect(() => {
@@ -29,7 +29,7 @@ const AddressInformation = () => {
       <div className="flex items-center justify-between  mb-5 px-4">
         <h1 className="text-xl md:text-3xl font-bold">Address</h1>
         <div>
-          <Link href="/pages/address">
+          <Link href={`/pages/address?redirect=profile/${id}`}>
             <BiEdit size={25} />
           </Link>
         </div>
@@ -75,7 +75,7 @@ const AddressInformation = () => {
             <h2>No Address</h2>
             <Link
               className="flex justify-center font-semibold text-indigo-600"
-              href="/pages/address">
+              href={`/pages/address?redirect=profile/${id}`}>
               <svg
                 className="fill-current mr-2 text-indigo-600 w-4"
                 viewBox="0 0 448 512">

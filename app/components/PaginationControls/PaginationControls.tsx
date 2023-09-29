@@ -17,7 +17,7 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
   const router = useRouter();
   const searchParams = useSearchParams();
   const page = searchParams?.get("page") ?? 1;
-  const per_page = searchParams?.get("per_page") ?? 4;
+  const per_page = searchParams?.get("per_page") ?? 8;
   return (
     <div className="flex g-6 justify-center items-center my-5 w-full">
       <div className="w-20">

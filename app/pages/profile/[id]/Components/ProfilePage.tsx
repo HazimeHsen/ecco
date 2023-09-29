@@ -158,7 +158,7 @@ const ProfilePage = ({
                     />
                   </div>
                   <div className="md:w-1/2 w-full px-4 md:mt-0 mt-8">
-                    <AddressInformation />
+                    <AddressInformation id={params.id} />
                   </div>
                 </div>
                 <div className="md:w-1/2 w-full px-4 py-8">
