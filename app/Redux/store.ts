@@ -1,13 +1,6 @@
+import { Product } from "@prisma/client";
 import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
-export interface Product {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  category: string;
-  images: string[];
-}
 
 interface CartState {
   cartItems: Product[];
@@ -74,54 +67,50 @@ export const {
   clearCart,
 } = cartSlice.actions;
 
-  
+interface FavoritesState {
+  favoriteItems: Product[];
+}
 
-  interface FavoritesState {
-    favoriteItems: Product[];
-  }
+const favoritesCookie = Cookies.get("favorites");
+const parsedFavoriteItems = favoritesCookie
+  ? JSON.parse(favoritesCookie).favoriteItems
+  : [];
 
-  const favoritesCookie = Cookies.get("favorites");
-  const parsedFavoriteItems = favoritesCookie
-    ? JSON.parse(favoritesCookie).favoriteItems
-    : [];
-
-  const favoritesInitialState: FavoritesState = {
-    favoriteItems: parsedFavoriteItems ?? [],
-  };
-  const favoritesSlice = createSlice({
-    name: "favorites",
-    initialState: favoritesInitialState,
-    reducers: {
-      addToFavorites(state, action: PayloadAction<Product>) {
-        state.favoriteItems.push(action.payload);
-        Cookies.set("favorites", JSON.stringify(state));
-      },
-      removeFromFavorites(state, action: PayloadAction<string>) {
-        state.favoriteItems = state.favoriteItems.filter(
-          (product) => product.id !== action.payload
-        );
-        Cookies.set("favorites", JSON.stringify(state));
-      },
-      isProductInFavorites(state, action: PayloadAction<string>) {
-        const { favoriteItems } = state;
-        const productId = action.payload;
-        const isFavorite = favoriteItems.some(
-          (product) => product.id === productId
-        );
-      },
+const favoritesInitialState: FavoritesState = {
+  favoriteItems: parsedFavoriteItems ?? [],
+};
+const favoritesSlice = createSlice({
+  name: "favorites",
+  initialState: favoritesInitialState,
+  reducers: {
+    addToFavorites(state, action: PayloadAction<Product>) {
+      state.favoriteItems.push(action.payload);
+      Cookies.set("favorites", JSON.stringify(state));
     },
-  });
-  export const { addToFavorites, removeFromFavorites, isProductInFavorites } =
-    favoritesSlice.actions;
-
-
-  export const Store = configureStore({
-    reducer: {
-      cart: cartSlice.reducer,
-      favorites: favoritesSlice.reducer,
+    removeFromFavorites(state, action: PayloadAction<string>) {
+      state.favoriteItems = state.favoriteItems.filter(
+        (product) => product.id !== action.payload
+      );
+      Cookies.set("favorites", JSON.stringify(state));
     },
-  });
-  
+    isProductInFavorites(state, action: PayloadAction<string>) {
+      const { favoriteItems } = state;
+      const productId = action.payload;
+      const isFavorite = favoriteItems.some(
+        (product) => product.id === productId
+      );
+    },
+  },
+});
+export const { addToFavorites, removeFromFavorites, isProductInFavorites } =
+  favoritesSlice.actions;
+
+export const Store = configureStore({
+  reducer: {
+    cart: cartSlice.reducer,
+    favorites: favoritesSlice.reducer,
+  },
+});
 
 export type RootState = ReturnType<typeof Store.getState>;
 export type AppDispatch = typeof Store.dispatch;

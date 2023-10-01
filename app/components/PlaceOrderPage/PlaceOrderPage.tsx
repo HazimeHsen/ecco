@@ -13,7 +13,8 @@ import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import Loader from "../Loader/Loader";
-
+import { Product } from "@prisma/client";
+import { WhatsappShareButton, WorkplaceShareButton } from "react-share";
 interface AddressData {
   country: { name: string };
   city: string;
@@ -29,7 +30,9 @@ interface placeOrderProps {
 const PlaceOrderPage: React.FC<placeOrderProps> = ({ currentUser }) => {
   const PaymentMethodModal = usePaymentMethodModal();
   const router = useRouter();
-  const cartItems = useSelector((state: RootState) => state.cart.cartItems);
+  const cartItems: Product[] = useSelector(
+    (state: RootState) => state.cart.cartItems
+  );
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
@@ -113,23 +116,57 @@ const PlaceOrderPage: React.FC<placeOrderProps> = ({ currentUser }) => {
       console.log(error);
     }
   };
+  const constructWhatsAppMessage = (
+    address: AddressData,
+    paymentMethod: string,
+    cartItems: Product[]
+  ) => {
+    const addressText = `*Address*:
+  Street: ${address.street}
+  City: ${address.city}
+  State: ${address.state}
+  Postal Code: ${address.postalCode}`;
 
+    const paymentMethodText = `*Payment Method*: ${paymentMethod}`;
+
+    const cartItemsText = cartItems.map(
+      (item, index) =>
+        `${index + 1}. *Name*: ${item.name} - *Quantity*: ${item.quantity} x $${
+          item.price
+        } = $${item.quantity * item.price}\n*Image*: ${item.images[0]}`
+    );
+
+    const messageParts = [
+      addressText,
+      paymentMethodText,
+      "*Cart Items*:",
+      ...cartItemsText,
+    ];
+
+    return messageParts.join("\n\n");
+  };
+
+  const message = constructWhatsAppMessage(
+    addressData,
+    paymentMethod,
+    cartItems
+  );
   const handlePlaceOrder = () => {
     if (currentUser && paymentMethod === "On Delivered") {
       toast.success("Place Order Successfully Added");
       saveOrder();
-      router.push("/");
       handleClearCart();
-    } else if (currentUser && paymentMethod === "Stripe") {
-      toast.success("stripe");
-      saveOrder();
-      router.push("/");
-      handleClearCart();
+      const phoneNumber = "78905718";
+
+      const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+        message
+      )}`;
+
+      window.location.href = whatsappUrl;
     } else {
-      toast.success("Please make sure to add Payment Method and to Login");
+      toast.error("Please make sure to add Payment Method and to Login");
     }
   };
-
   const address = (
     <div className="mt-4 ml-2">
       <ul className="space-y-2">

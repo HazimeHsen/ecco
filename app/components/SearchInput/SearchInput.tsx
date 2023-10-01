@@ -4,9 +4,7 @@ import { Button } from "../ui/button";
 import useSearchInputModal from "@/app/hooks/SearchInput";
 import axios from "axios";
 import { Product } from "@prisma/client";
-import MenuItem from "../navbar/MenuItem";
 import Link from "next/link";
-import LoadingSvg from "../Loading/Loading";
 import Image from "next/image";
 import Loader from "../Loader/Loader";
 
@@ -16,10 +14,6 @@ const SearchInput = () => {
   const [query, setQuery] = useState("");
   const [products, setProducts] = useState<Product[]>([]);
   const [isOpen, setIsOpen] = useState(false);
-
-  const searchInputRef = useRef<HTMLInputElement | null>(null);
-  const buttonRef = useRef<HTMLButtonElement | null>(null);
-  const ModalRef = useRef<HTMLDivElement | null>(null);
 
   const toggle = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
@@ -36,40 +30,15 @@ const SearchInput = () => {
   };
 
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (
-        searchInputRef.current &&
-        buttonRef.current &&
-        ModalRef.current &&
-        !searchInputRef.current?.contains(e.target as Node) &&
-        !ModalRef.current?.contains(e.target as Node) &&
-        !buttonRef.current?.contains(e.target as Node)
-      ) {
-        setIsOpen(false);
-        setProducts([]);
-        setQuery("");
-        searchInput.onClose();
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [searchInput]);
-  useEffect(() => {
     if (query.length > 0) {
       setIsOpen(true);
       const getData = async () => {
         try {
           setIsLoading(true);
           const { data } = await axios.get(`/api/product/search/${query}`);
-          setIsLoading(false);
-          console.log(data);
-          console.log(data.products);
           if (data) {
-            setProducts(data.products);
+            setIsLoading(false);
+            setProducts(data.products.slice(0, 4));
           }
         } catch (error) {
           console.log(error);
@@ -87,7 +56,7 @@ const SearchInput = () => {
         searchInput.isOpen ? "md:block flex justify-center" : ""
       }`}>
       <form action="">
-        <Button type="submit" className="icon" onClick={toggle} ref={buttonRef}>
+        <Button type="submit" className="icon" onClick={toggle}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -115,13 +84,10 @@ const SearchInput = () => {
           name="text"
           type="text"
           value={query}
-          ref={searchInputRef}
         />
       </form>
       {isOpen && (
-        <div
-          ref={ModalRef}
-          className="z-50 absolute rounded shadow-md w-full bg-white  p-3 overflow-hidden left-0 top-14 text-sm">
+        <div className="z-50 absolute rounded shadow-md w-full bg-white  p-3 overflow-hidden left-0 top-14 text-sm">
           <div className="flex flex-col cursor-pointer overflow-hidden relative">
             {isLoading ? (
               <div className="w-full flex items-center justify-center">
